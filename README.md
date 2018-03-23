@@ -1,7 +1,9 @@
 # Multilevel-FeedBack-Queue-And-RealTime-Share-Scheduling-In-C
 This project is for the creation of the simulation of different kind of scheduling algorithms on either real life problem or simple CPU process.
-1) Level 1 : Fixed priority preemptive Scheduling
-   Level 2 : Round Robin Scheduling
+1) Level 1 : Fixed priority preemptive Scheduling.
+   
+   Level 2 : Round Robin Scheduling.
+   
    For a Fixed priority preemptive Scheduling (Queue 1), the Priority 0 is highest priority. If one
    process P1 is scheduled and running , another process P2 with higher priority comes. The New
    process (high priority) process P2 preempts currently running process P1 and process P1 will go
