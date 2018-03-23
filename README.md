@@ -1,4 +1,4 @@
-# Multilevel-Queue-And-RealTime-Share-Scheduling-In-C
+# Multilevel-Feedback-Queue-And-RealTime-Share-Scheduling-In-C
 This project is for the creation of the simulation of different kind of scheduling algorithms on either real life problem or simple CPU process.
 1) Level 1 : Fixed priority preemptive Scheduling.
    
