@@ -1,9 +1,8 @@
-// C++ Standard Templet Library header file.
-#include<queue>
-using namespace std;
-//
-// Complete Rest of the Program is in c.
 #include<stdio.h>
+#include<queue>
+#include<iostream>
+using namespace std;
+
 #define MAX 1000
 #define QUANTA 4
 
@@ -121,11 +120,14 @@ int main()
       }
       last_smallest=smallest;
     }
-    printf("\n*********************************************************");
+   	printf("\n*********************************************************");
 	printf("\nProcess Id | Response_Time | Finish_Time | Waiting_Time \n");
+	float avg_waiting=0;
     for(int i=0;i<n;i++)
     {
     	printf("%d		%d		%d		%d\n",pid[i],fe[i],ft[i],ft[i]-bt[i]-at[i]);
+    	avg_waiting=avg_waiting+(ft[i]-bt[i]-at[i]);
 	}
+	printf("\nAverage Waiting Time : %f",avg_waiting/(n*1.0));
     return 0;
 }
