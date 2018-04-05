@@ -2,32 +2,39 @@
 
 int main()
 {
-	
+	printf("\nOnline Query Handeler : \n=========================================\n\n");
 	int snum,fnum,i,k;
+	printf("Query Timing : 10 am to 12 am\nInstruction : Total Time : 14 Hrs\n\t      Consider 10 am as 0 Hrs\n\n=========================================\n");
 	printf("\nEnter Number Of Students : ");
 	scanf("%d",&snum);
+	printf("\n=========================================");
 	int sid[snum],sarr[snum],sbur[snum];
 	for(i=0;i<snum;i++)
 	{
+		printf("\n------------------------------------------------");
 		sid[i]=i+1;
 		printf("\nEnter Student %d Arrival Time : ",i+1);
 		scanf("%d",&sarr[i]);
-		printf("\nEnter Student %d Burst Time : ",i+1);
+		printf("Enter Student %d Burst Time   : ",i+1);
 		scanf("%d",&sbur[i]);
 		k=i+1;
+		printf("------------------------------------------------");
 	}
-	printf("\nEnter Number Of Faculty : ");
+	
+	printf("\n\n=========================================\n\nEnter Number Of Faculty : ");
 	scanf("%d",&fnum);
+	printf("\n=========================================");
 	int fid[fnum],farr[fnum],fbur[fnum];
 	for(i=0;i<fnum;i++)
 	{
+		printf("\n------------------------------------------------");
 		k=k+1;
 		fid[i]=k;
-		printf("\n%d\n",fid[i]);
 		printf("\nEnter Faculty %d Arrival Time : ",i+1);
 		scanf("%d",&farr[i]);
-		printf("\nEnter Faculty %d Burst Time : ",i+1);
+		printf("Enter Faculty %d Burst Time   : ",i+1);
 		scanf("%d",&fbur[i]);
+		printf("------------------------------------------------");
 	}
 	int pos,j,temp;
 	for(i=0;i<snum;i++)
@@ -71,14 +78,8 @@ int main()
         fbur[i]=fbur[pos];
         fbur[pos]=temp;
     }
-    /*for(i=0;i<fnum;i++)
-    {
-    	printf("%d	",fid[i]);
-	}*/
-    // Final Array
     int n=snum+fnum;
 	int arr[n],bur[n],id[n],rt[n];
-	//
 	i = 0;
  	j = 0;
  	k = 0;
@@ -117,46 +118,50 @@ int main()
 		k++;
 		j++;
 	}
- 	printf("\n\n\n");
-	for(i=0;i<n;i++)
- 	{
- 		printf("\n%d  %d  %d",id[i],arr[i],bur[i]);	
-	}
 	for(i=0;i<n;i++) 
 	{  
 		rt[i]=bur[i]; 
 	}
 	// Round Robin
+	int clock=0;
 	int time_quantum=1;
-	int count;
-	printf("\n\nProcess\t|Turnaround Time|Waiting Time\n\n"); 
+	int count; 
   	int time,flag=0,remain=n; 
   	int wait_time=0,turnaround_time=0; 
+  	printf("\n\nQuery Taken In Order( 1 Hr each )\n");
   	for(time=0,count=0;remain!=0;) // remain==pro_left
   	{ 
     	if(rt[count]<=time_quantum && rt[count]>0) 
     	{ 
+    		clock=clock+1;
       		time+=rt[count]; 
       		rt[count]=0; 
       		flag=1; 
-      		if(id[count]>snum)
-      		printf("Faculty with id : %d\n",id[count]);
-      		else
-      		printf("Student with id : %d\n",id[count]);
+      		if(clock<=14)
+			{
+      			if(id[count]>snum)
+      				printf("Faculty with id : %d\n",id[count]);
+      			else
+      				printf("Student with id : %d\n",id[count]);	
+			}
+			  
     	} 
     	else if(rt[count]>0) 
     	{ 
+    		clock+=1;
       		rt[count]-=time_quantum; 
       		time+=time_quantum; 
-      		if(id[count]>snum)
-      		printf("Faculty with id : %d\n",id[count]);
-      		else
-      		printf("Student with id : %d\n",id[count]);
+      		if(clock<=14)
+			{
+      			if(id[count]>snum)
+      				printf("Faculty with id : %d\n",id[count]);
+      			else
+      				printf("Student with id : %d\n",id[count]);	
+			}
     	} 
     	if(rt[count]==0 && flag==1) 
     	{ 
       		remain--; 
-      		//printf("P[%d]\t|\t%d\t|\t%d\n",id[count],time-arr[count],time-arr[count]-bur[count]); 
       		wait_time+=time-arr[count]-bur[count]; 
       		turnaround_time+=time-arr[count]; 
       		flag=0; 
@@ -167,8 +172,6 @@ int main()
       		count++; 
     	else 
       		count=0; 
-  	} 
-  	printf("\nAverage Waiting Time= %f\n",wait_time*1.0/n); 
-  	printf("Avg Turnaround Time = %f",turnaround_time*1.0/n);
+  	}
 	return 0;
 }
