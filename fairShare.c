@@ -76,7 +76,7 @@ int main()
 	}*/
     // Final Array
     int n=snum+fnum;
-	int arr[n],bur[n],id[n];
+	int arr[n],bur[n],id[n],rt[n];
 	//
 	i = 0;
  	j = 0;
@@ -121,5 +121,44 @@ int main()
  	{
  		printf("\n%d  %d  %d",id[i],arr[i],bur[i]);	
 	}
+	for(i=0;i<n;i++) 
+	{  
+		rt[i]=bur[i]; 
+	}
+	int time_quantum=QUANTA;
+	int count;
+	printf("\n\nProcess\t|Turnaround Time|Waiting Time\n\n"); 
+  	int time,flag=0,remain; 
+  	int wait_time=0,turnaround_time=0; 
+  	for(time=0,count=0;remain!=0;) // remain==pro_left
+  	{ 
+    	if(rt[count]<=time_quantum && rt[count]>0) 
+    	{ 
+      		time+=rt[count]; 
+      		rt[count]=0; 
+      		flag=1; 
+    	} 
+    	else if(rt[count]>0) 
+    	{ 
+      		rt[count]-=time_quantum; 
+      		time+=time_quantum; 
+    	} 
+    	if(rt[count]==0 && flag==1) 
+    	{ 
+      		remain--; 
+      		printf("P[%d]\t|\t%d\t|\t%d\n",count+1,time-arr[count],time-arr[count]-bur[count]); 
+      		wait_time+=time-arr[count]-bur[count]; 
+      		turnaround_time+=time-arr[count]; 
+      		flag=0; 
+    	} 
+    	if(count==n-1) 
+      		count=0; 
+    	else if(arr[count+1]<=time) 
+      		count++; 
+    	else 
+      		count=0; 
+  	} 
+  	printf("\nAverage Waiting Time= %f\n",wait_time*1.0/n); 
+  	printf("Avg Turnaround Time = %f",turnaround_time*1.0/n);
 	return 0;
 }
