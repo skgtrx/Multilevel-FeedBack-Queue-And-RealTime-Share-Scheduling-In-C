@@ -1,7 +1,8 @@
 #include <stdio.h>
-#define QUANTA 3
+
 int main()
 {
+	
 	int snum,fnum,i,k;
 	printf("\nEnter Number Of Students : ");
 	scanf("%d",&snum);
@@ -125,10 +126,11 @@ int main()
 	{  
 		rt[i]=bur[i]; 
 	}
-	int time_quantum=QUANTA;
+	// Round Robin
+	int time_quantum=1;
 	int count;
 	printf("\n\nProcess\t|Turnaround Time|Waiting Time\n\n"); 
-  	int time,flag=0,remain; 
+  	int time,flag=0,remain=n; 
   	int wait_time=0,turnaround_time=0; 
   	for(time=0,count=0;remain!=0;) // remain==pro_left
   	{ 
@@ -137,16 +139,24 @@ int main()
       		time+=rt[count]; 
       		rt[count]=0; 
       		flag=1; 
+      		if(id[count]>snum)
+      		printf("Faculty with id : %d\n",id[count]);
+      		else
+      		printf("Student with id : %d\n",id[count]);
     	} 
     	else if(rt[count]>0) 
     	{ 
       		rt[count]-=time_quantum; 
       		time+=time_quantum; 
+      		if(id[count]>snum)
+      		printf("Faculty with id : %d\n",id[count]);
+      		else
+      		printf("Student with id : %d\n",id[count]);
     	} 
     	if(rt[count]==0 && flag==1) 
     	{ 
       		remain--; 
-      		printf("P[%d]\t|\t%d\t|\t%d\n",count+1,time-arr[count],time-arr[count]-bur[count]); 
+      		//printf("P[%d]\t|\t%d\t|\t%d\n",id[count],time-arr[count],time-arr[count]-bur[count]); 
       		wait_time+=time-arr[count]-bur[count]; 
       		turnaround_time+=time-arr[count]; 
       		flag=0; 
