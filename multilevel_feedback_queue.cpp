@@ -1,6 +1,9 @@
-#include<stdio.h>
+// C++
 #include<queue>
 #include<iostream>
+// C++
+// Rest complete program is in C
+#include<stdio.h>
 using namespace std;
 
 #define MAX 1000
