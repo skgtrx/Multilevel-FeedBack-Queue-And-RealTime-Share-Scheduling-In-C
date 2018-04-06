@@ -7,36 +7,30 @@
 using namespace std;
 
 #define MAX 1000
-#define QUANTA 4
+#define QUANTM 4
 
-int flag[MAX],at[MAX],bt[MAX],pt[MAX],rt[MAX],ft[MAX],fe[MAX],fe_flag[MAX],pid[MAX],tms,qt[MAX];
+int flag[MAX],arr_time[MAX],bur_time[MAX],priority[MAX],rt[MAX],ft[MAX],fe[MAX],fe_flag[MAX],pid[MAX],tms,qt[MAX];
 
-//at arrival time
-//bt burst time
-//rt Response Time
-//pt priority
-//pid process id
-
-queue<int> q;  //RR queue
+queue<int> rr;  //RR queue
 
 void RR()
 {
-      if(!q.empty())
+      if(!rr.empty())
       {
-      	if(rt[q.front()]>0 && qt[q.front()]<4)
+      	if(rt[rr.front()]>0 && qt[rr.front()]<4)
       	{
-          		qt[q.front()]++;
-          		rt[q.front()]--;
-          		if(rt[q.front()]==0)
+          		qt[rr.front()]++;
+          		rt[rr.front()]--;
+          		if(rt[rr.front()]==0)
           		{
-            	ft[q.front()]=tms+1;
-            	q.pop();
+            	ft[rr.front()]=tms+1;
+            	rr.pop();
           		}
-          		if(rt[q.front()]!=0 && qt[q.front()]==4)
+          		if(rt[rr.front()]!=0 && qt[rr.front()]==4)
           		{
-				qt[q.front()]=0;
-				q.push(q.front());
-				q.pop();
+				qt[rr.front()]=0;
+				rr.push(rr.front());
+				rr.pop();
           		}
         	}
       }
@@ -53,30 +47,30 @@ int main()
 		printf("Enter Process Id : ");
 		scanf("%d",&pid[i]);
 		printf("Enter Arrival Time : ");
-		scanf("%d",&at[i]);
+		scanf("%d",&arr_time[i]);
 		printf("Enter Burst Time : ");
-		scanf("%d",&bt[i]);
+		scanf("%d",&bur_time[i]);
 		printf("Enter Priority : ");
-		scanf("%d",&pt[i]);
-    		if(at[i]>large)
-    		  	large=at[i];
-    		  sum+=bt[i];
-    		  rt[i]=bt[i];
+		scanf("%d",&priority[i]);
+    		if(arr_time[i]>large)
+    		  	large=arr_time[i];
+    		  sum+=bur_time[i];
+    		  rt[i]=bur_time[i];
     }
     min=MAX;
-    for(tms=0;!q.empty() || tms<=sum+large ;tms++)
+    for(tms=0;!rr.empty() || tms<=sum+large ;tms++)
     {
       min=MAX;
       smallest=-1;
       for(i=0;i<n;i++)
       {
-      	if(at[i]<=tms && pt[i]<min && rt[i]>0 && !flag[i])
+      	if(arr_time[i]<=tms && priority[i]<min && rt[i]>0 && !flag[i])
       	{
-      		min=pt[i];
+      		min=priority[i];
           		smallest=i;
         	}
       }
-      if(smallest==-1 && !q.empty())
+      if(smallest==-1 && !rr.empty())
       {
       	if(last_smallest !=-1 && rt[last_smallest]==0)
       	{
@@ -87,33 +81,33 @@ int main()
         	RR();
         	continue;
       }
-      else if(smallest!=-1 && !q.empty() && last_smallest==-1)
+      else if(smallest!=-1 && !rr.empty() && last_smallest==-1)
       {
-      	if(qt[q.front()]<=4 && qt[q.front()]>0)
+      	if(qt[rr.front()]<=4 && qt[rr.front()]>0)
       	{
-      		q.push(q.front());
-      		q.pop();
+      		rr.push(rr.front());
+      		rr.pop();
         	}
       }
       if(smallest!=-1 && !fe_flag[smallest])
       {
-      	fe[smallest]=tms-at[smallest];
+      	fe[smallest]=tms-arr_time[smallest];
       	fe_flag[smallest]=1;
       }
       if( smallest!=last_smallest && last_smallest!=-1 && !flag[last_smallest])
       {
-      	q.push(last_smallest);
+      	rr.push(last_smallest);
       	flag[last_smallest]=1;
       }
       if(smallest !=-1)
       	rt[smallest]--;
       
-      if((smallest !=-1) && ((rt[smallest]==0) ||(bt[smallest]-rt[smallest])==QUANTA))
+      if((smallest !=-1) && ((rt[smallest]==0) ||(bur_time[smallest]-rt[smallest])==QUANTM))
       {
-      	if((bt[smallest]-rt[smallest])==QUANTA && rt[smallest]!=0)
+      	if((bur_time[smallest]-rt[smallest])==QUANTM && rt[smallest]!=0)
       	{
       		flag[smallest]=1;
-      		q.push(smallest);
+      		rr.push(smallest);
         	}
        	else if(smallest!=-1)
        	{
@@ -128,9 +122,10 @@ int main()
 	float avg_waiting=0;
     for(int i=0;i<n;i++)
     {
-    	printf("%d		%d		%d		%d\n",pid[i],fe[i],ft[i],ft[i]-bt[i]-at[i]);
-    	avg_waiting=avg_waiting+(ft[i]-bt[i]-at[i]);
+    	printf("%d		%d		%d		%d\n",pid[i],fe[i],ft[i],ft[i]-bur_time[i]-arr_time[i]);
+    	avg_waiting=avg_waiting+(ft[i]-bur_time[i]-arr_time[i]);
 	}
 	printf("\nAverage Waiting Time : %f",avg_waiting/(n*1.0));
     return 0;
 }
+
