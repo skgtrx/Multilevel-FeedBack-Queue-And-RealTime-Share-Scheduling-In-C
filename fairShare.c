@@ -126,6 +126,8 @@ int main()
 	int clock=0;
 	int time_quantum=1;
 	int count; 
+	int uid[14];
+	int uid_c=0;
   	int time,flag=0,remain=n; 
   	int wait_time=0,turnaround_time=0; 
   	printf("\n\nQuery Taken In Order( 1 Hr each )\n");
@@ -139,11 +141,21 @@ int main()
       		flag=1; 
       		if(clock<=14)
 			{
-      			if(id[count]>snum)
+      			if(id[count]>snum){
+      				uid[uid_c]=id[count];
+      				uid_c++;
       				printf("Faculty with id : %d\n",id[count]);
-      			else
+				  }
+      				
+      			else{
+      				uid[uid_c]=id[count];
+      				uid_c++;
       				printf("Student with id : %d\n",id[count]);	
+				  }
+      				
 			}
+			else
+			break;
 			  
     	} 
     	else if(rt[count]>0) 
@@ -153,11 +165,21 @@ int main()
       		time+=time_quantum; 
       		if(clock<=14)
 			{
-      			if(id[count]>snum)
+      			if(id[count]>snum){
+      				uid[uid_c]=id[count];
+      				uid_c++;
       				printf("Faculty with id : %d\n",id[count]);
-      			else
+				  }
+      				
+      			else{
+      				uid[uid_c]=id[count];
+      				uid_c++;
       				printf("Student with id : %d\n",id[count]);	
+				  }
+      				
 			}
+			else
+			break;
     	} 
     	if(rt[count]==0 && flag==1) 
     	{ 
@@ -173,5 +195,31 @@ int main()
     	else 
       		count=0; 
   	}
+  	n=14;
+  	for(i = 0; i < n; i++)
+    {
+        for(j = i+1; j < n; )
+        {
+            if(uid[j] == uid[i])
+            {
+                for(k = j; k < n; k++)
+                {
+                    uid[k] = uid[k+1];
+                }
+                n--;
+            }
+            else
+            {
+                j++;
+            }
+        }
+    }
+
+    int final_pro=n;
+    printf("%d",final_pro);
+    float avg_qt= ((clock-1)*1.0)/n;
+  	printf("\n\nSUMMARY : \n\n");
+  	printf("Total spent time : %d\n",clock-1);
+  	printf("Average query time : %f\n",avg_qt);
 	return 0;
 }
